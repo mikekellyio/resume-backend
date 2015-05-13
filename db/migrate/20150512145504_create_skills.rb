@@ -5,10 +5,7 @@ class CreateSkills < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    
-    create_table :jobs_skills do |t|
-        t.belongs_to :jobs
-        t.belongs_to :skills 
-    end
+
+    create_join_table :jobs, :skills
   end
 end

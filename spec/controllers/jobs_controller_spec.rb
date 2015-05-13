@@ -21,7 +21,7 @@ RSpec.describe JobsController, type: :controller do
   describe "GET #index" do
     it "assigns all jobs as @jobs" do
       job = Job.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, valid_session
       expect(assigns(:jobs)).to eq([job])
     end
   end
@@ -29,22 +29,7 @@ RSpec.describe JobsController, type: :controller do
   describe "GET #show" do
     it "assigns the requested job as @job" do
       job = Job.create! valid_attributes
-      get :show, {:id => job.to_param}, valid_session
-      expect(assigns(:job)).to eq(job)
-    end
-  end
-
-  describe "GET #new" do
-    it "assigns a new job as @job" do
-      get :new, {}, valid_session
-      expect(assigns(:job)).to be_a_new(Job)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested job as @job" do
-      job = Job.create! valid_attributes
-      get :edit, {:id => job.to_param}, valid_session
+      get :show, valid_session.merge({:id => job.to_param})
       expect(assigns(:job)).to eq(job)
     end
   end
@@ -53,31 +38,22 @@ RSpec.describe JobsController, type: :controller do
     context "with valid params" do
       it "creates a new Job" do
         expect {
-          post :create, {:job => valid_attributes}, valid_session
+          post :create, valid_session.merge({:job => valid_attributes})
         }.to change(Job, :count).by(1)
       end
 
       it "assigns a newly created job as @job" do
-        post :create, {:job => valid_attributes}, valid_session
+        post :create, valid_session.merge({:job => valid_attributes})
         expect(assigns(:job)).to be_a(Job)
         expect(assigns(:job)).to be_persisted
       end
 
-      it "redirects to the created job" do
-        post :create, {:job => valid_attributes}, valid_session
-        expect(response).to redirect_to(Job.last)
-      end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved job as @job" do
-        post :create, {:job => invalid_attributes}, valid_session
+        post :create, valid_session.merge({:job => invalid_attributes})
         expect(assigns(:job)).to be_a_new(Job)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, {:job => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
       end
     end
   end
@@ -90,35 +66,23 @@ RSpec.describe JobsController, type: :controller do
 
       it "updates the requested job" do
         job = Job.create! valid_attributes
-        put :update, {:id => job.to_param, :job => new_attributes}, valid_session
+        put :update, valid_session.merge({:id => job.to_param, :job => new_attributes})
         job.reload
         expect(job.title).to eq("Spiffy New Job Title")
       end
 
       it "assigns the requested job as @job" do
         job = Job.create! valid_attributes
-        put :update, {:id => job.to_param, :job => valid_attributes}, valid_session
+        put :update, valid_session.merge({:id => job.to_param, :job => valid_attributes})
         expect(assigns(:job)).to eq(job)
-      end
-
-      it "redirects to the job" do
-        job = Job.create! valid_attributes
-        put :update, {:id => job.to_param, :job => valid_attributes}, valid_session
-        expect(response).to redirect_to(job)
       end
     end
 
     context "with invalid params" do
       it "assigns the job as @job" do
         job = Job.create! valid_attributes
-        put :update, {:id => job.to_param, :job => invalid_attributes}, valid_session
+        put :update, valid_session.merge({:id => job.to_param, :job => invalid_attributes})
         expect(assigns(:job)).to eq(job)
-      end
-
-      it "re-renders the 'edit' template" do
-        job = Job.create! valid_attributes
-        put :update, {:id => job.to_param, :job => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
       end
     end
   end
@@ -127,14 +91,8 @@ RSpec.describe JobsController, type: :controller do
     it "destroys the requested job" do
       job = Job.create! valid_attributes
       expect {
-        delete :destroy, {:id => job.to_param}, valid_session
+        delete :destroy, valid_session.merge({:id => job.to_param})
       }.to change(Job, :count).by(-1)
-    end
-
-    it "redirects to the jobs list" do
-      job = Job.create! valid_attributes
-      delete :destroy, {:id => job.to_param}, valid_session
-      expect(response).to redirect_to(jobs_url)
     end
   end
 

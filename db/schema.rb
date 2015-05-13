@@ -24,9 +24,9 @@ ActiveRecord::Schema.define(version: 20150512145504) do
     t.datetime "updated_at",  null: false
   end
 
-  create_table "jobs_skills", force: :cascade do |t|
-    t.integer "jobs_id"
-    t.integer "skills_id"
+  create_table "jobs_skills", id: false, force: :cascade do |t|
+    t.integer "job_id",   null: false
+    t.integer "skill_id", null: false
   end
 
   create_table "skills", force: :cascade do |t|
